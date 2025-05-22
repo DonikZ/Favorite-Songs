@@ -3,7 +3,7 @@ var lagu = [
     ['Monokrom', 'Tulus', '89K', '1.8M', 'Monokrom.jpg', 'Monokrom song.mp3'],
     ['Film Favorit', 'Sheila On 7', '67K', '987K', 'Film Favorit.jpg', 'Film song.mp3'], 
     ['Nina', 'Feast', '156K', '3.1M', 'Nina.jpg', 'Nina song.mp3'],
-    ['Bertaut', 'Nadin Amizah', '203K', '4.2M', 'bertaut.jpg', 'bertaut song.mp3'],
+    ['Bertaut', 'Nadin Amizah', '203K', '4.2M', 'bertaut.jpg', 'Bertaut song.mp3'],
     ['Perfect', 'One Direction', '94K', '1.5M', 'One direction.jpg', 'perfect song.mp3'],
 ];
 
