@@ -1,3 +1,4 @@
+
 var lagu = [
     ['Rewrite The Stars', 'Anne Marie & James Arthur', '125K', '2.3M', 'Rewrite the stars.jpg', 'Rewrite song.mp3'],
     ['Monokrom', 'Tulus', '89K', '1.8M', 'Monokrom.jpg', 'Monokrom song.mp3'],
@@ -5,6 +6,9 @@ var lagu = [
     ['Nina', 'Feast', '156K', '3.1M', 'Nina.jpg', 'Nina song.mp3'],
     ['Bertaut', 'Nadin Amizah', '203K', '4.2M', 'bertaut.jpg', 'Bertaut song.mp3'],
     ['Perfect', 'One Direction', '94K', '1.5M', 'One direction.jpg', 'perfect song.mp3'],
+    ['Labirin', 'Tulus', '112K', '2.4M', 'Labirin.jpg', 'Labirin.mp3'],
+    ['Lesung Pipi', 'Raim ', '89K', '1.6M', 'Lesung Pipi.jpeg', 'Lesung Pipi.mp3'],
+    ['Manusia Kuat', 'Tulus', '78K', '1.2M', 'Manusia Kuat.jpg', 'Manusia Kuat.mp3'],
 ];
 
 var container = document.getElementById('songs-container');
@@ -240,3 +244,82 @@ document.querySelectorAll('.control-btn').forEach(btn => {
 });
 
 
+document.addEventListener('DOMContentLoaded', function() {
+    const progressContainer = document.querySelector('.progress-container');
+    
+    if (progressContainer) {
+        
+        progressContainer.addEventListener('click', function(e) {
+            if (!currentAudio || !currentAudio.duration) return;
+            
+            const rect = this.getBoundingClientRect();
+            const percentage = ((e.clientX - rect.left) / rect.width) * 100;
+            seekAudio(Math.max(0, Math.min(100, percentage)));
+        });
+        
+        
+        progressContainer.addEventListener('mousedown', function(e) {
+            isDragging = true;
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+        });
+        
+        function handleMouseMove(e) {
+            if (!isDragging || !currentAudio || !currentAudio.duration) return;
+            
+            const rect = progressContainer.getBoundingClientRect();
+            const percentage = ((e.clientX - rect.left) / rect.width) * 100;
+            const clampedPercentage = Math.max(0, Math.min(100, percentage));
+            
+            
+            const progress = document.querySelector('.progress');
+            if (progress) {
+                progress.style.width = clampedPercentage + '%';
+            }
+        }
+        
+        function handleMouseUp(e) {
+            if (isDragging && currentAudio && currentAudio.duration) {
+                const rect = progressContainer.getBoundingClientRect();
+                const percentage = ((e.clientX - rect.left) / rect.width) * 100;
+                seekAudio(Math.max(0, Math.min(100, percentage)));
+            }
+            
+            isDragging = false;
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        }
+    }
+});
+
+
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.song-card')) {
+        const card = e.target.closest('.song-card');
+        card.style.transform = 'scale(0.98)';
+        setTimeout(() => {
+            card.style.transform = '';
+        }, 150);
+    }
+});
+
+
+document.addEventListener('keydown', function(e) {
+    if (e.code === 'Space') {
+        e.preventDefault();
+        const playBtn = document.querySelector('.control-btn.play');
+        if (playBtn) {
+            playBtn.click();
+        }
+    } else if (e.code === 'ArrowRight') {
+        playNextSong();
+    } else if (e.code === 'ArrowLeft') {
+        playPreviousSong();
+    }
+});
+
+function setVolume(value) {
+    if (currentAudio) {
+        currentAudio.volume = value / 100;
+    }
+}
